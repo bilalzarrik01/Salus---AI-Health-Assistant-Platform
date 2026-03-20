@@ -1,6 +1,7 @@
 ﻿<?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SymptomController;
 use App\Support\ApiResponse;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,10 @@ Route::get('/ping', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/doctors', [DoctorController::class, 'index']);
+Route::get('/doctors/search', [DoctorController::class, 'search']);
+Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
