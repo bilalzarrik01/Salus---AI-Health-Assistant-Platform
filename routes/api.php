@@ -1,6 +1,7 @@
 ﻿<?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SymptomController;
 use App\Support\ApiResponse;
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::apiResource('symptoms', SymptomController::class);
+    Route::apiResource('appointments', AppointmentController::class);
 });
 
 Route::fallback(function () {
