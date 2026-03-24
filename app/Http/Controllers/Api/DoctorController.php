@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Http\Controllers\Api;
 
@@ -10,6 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class DoctorController extends Controller
 {
+    /**
+     * @unauthenticated
+     */
     public function index(): JsonResponse
     {
         $doctors = Doctor::query()
@@ -19,11 +22,17 @@ class DoctorController extends Controller
         return ApiResponse::success($doctors, 'Liste des medecins');
     }
 
+    /**
+     * @unauthenticated
+     */
     public function show(Doctor $doctor): JsonResponse
     {
         return ApiResponse::success($doctor, 'Detail du medecin');
     }
 
+    /**
+     * @unauthenticated
+     */
     public function search(DoctorSearchRequest $request): JsonResponse
     {
         $query = Doctor::query();

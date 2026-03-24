@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Http\Controllers\Api;
 
@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    /**
+     * @unauthenticated
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -26,6 +29,9 @@ class AuthController extends Controller
         ], 'Inscription reussie', 201);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
