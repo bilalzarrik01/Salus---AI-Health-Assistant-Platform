@@ -1,0 +1,33 @@
+﻿@startuml
+left to right direction
+actor User
+actor "AI Service" as AI
+
+rectangle "Health Assistant API" {
+  (Register)
+  (Login)
+  (Logout)
+  (View Profile)
+  (Manage Symptoms)
+  (View Doctors)
+  (Search Doctors)
+  (Book Appointment)
+  (Manage Appointments)
+  (Generate AI Advice)
+  (View AI Advice History)
+}
+
+User --> (Register)
+User --> (Login)
+User --> (Logout)
+User --> (View Profile)
+User --> (Manage Symptoms)
+User --> (View Doctors)
+User --> (Search Doctors)
+User --> (Book Appointment)
+User --> (Manage Appointments)
+User --> (Generate AI Advice)
+User --> (View AI Advice History)
+
+(Generate AI Advice) --> AI : external call
+@enduml
