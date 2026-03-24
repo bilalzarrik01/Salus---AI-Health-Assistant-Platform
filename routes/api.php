@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AiAdviceController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SymptomController;
 use App\Support\ApiResponse;
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('symptoms', SymptomController::class);
     Route::apiResource('appointments', AppointmentController::class);
+
+    Route::get('/ai/health-advice', [AiAdviceController::class, 'index']);
+    Route::post('/ai/health-advice', [AiAdviceController::class, 'generate']);
 });
 
 Route::fallback(function () {
