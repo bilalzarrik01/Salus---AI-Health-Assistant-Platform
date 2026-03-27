@@ -26,7 +26,7 @@ composer install
 ```
 copy .env.example .env
 ```
-Edit `.env` with DB credentials and OpenAI settings.
+Edit `.env` with DB credentials and Gemini settings.
 
 3. Generate app key
 ```
@@ -45,12 +45,12 @@ php artisan db:seed --class=DoctorSeeder
 php artisan serve
 ```
 
-## OpenAI Settings
+## Gemini Settings
 Set these in `.env`:
-- `OPENAI_API_KEY`
-- `OPENAI_BASE_URL` (default `https://api.openai.com`)
-- `OPENAI_MODEL` (default `gpt-4o`)
-- `OPENAI_TIMEOUT`
+- `GEMINI_API_KEY`
+- `GEMINI_BASE_URL` (default `https://generativelanguage.googleapis.com`)
+- `GEMINI_MODEL` (default `gemini-2.5-flash`)
+- `GEMINI_TIMEOUT`
 
 ## API Documentation (Scribe)
 Generate docs:

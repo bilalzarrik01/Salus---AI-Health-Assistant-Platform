@@ -10,40 +10,44 @@ class AiHealthAdviceService
 {
     public function generateAdvice(Collection $symptoms): string
     {
-        $apiKey = config('services.openai.key');
+        $apiKey = config('services.gemini.key');
         if (! $apiKey) {
-            throw new RuntimeException('OPENAI_API_KEY manquant.');
+            throw new RuntimeException('GEMINI_API_KEY manquant.');
         }
 
-        $baseUrl = rtrim(config('services.openai.base_url', 'https://api.openai.com'), '/');
-        $model = config('services.openai.model', 'gpt-4o-mini');
-        $timeout = (int) config('services.openai.timeout', 20);
+        $baseUrl = rtrim(config('services.gemini.base_url', 'https://generativelanguage.googleapis.com'), '/');
+        $model = config('services.gemini.model', 'gemini-2.5-flash');
+        $timeout = (int) config('services.gemini.timeout', 20);
 
+        $systemPrompt = 'You are a helpful health assistant. Provide general wellness advice, not medical diagnosis.';
         $prompt = $this->buildPrompt($symptoms);
 
-        $response = Http::withToken($apiKey)
+        $response = Http::withHeaders([
+                'x-goog-api-key' => $apiKey,
+                'Content-Type' => 'application/json',
+            ])
             ->acceptJson()
             ->timeout($timeout)
-            ->post($baseUrl.'/v1/chat/completions', [
-                'model' => $model,
-                'messages' => [
+            ->post($baseUrl.'/v1beta/models/'.$model.':generateContent', [
+                'contents' => [
                     [
-                        'role' => 'system',
-                        'content' => 'You are a helpful health assistant. Provide general wellness advice, not medical diagnosis.',
-                    ],
-                    [
-                        'role' => 'user',
-                        'content' => $prompt,
+                        'parts' => [
+                            [
+                                'text' => $systemPrompt."\n\n".$prompt,
+                            ],
+                        ],
                     ],
                 ],
-                'temperature' => 0.7,
+                'generationConfig' => [
+                    'temperature' => 0.7,
+                ],
             ]);
 
         if ($response->failed()) {
             throw new RuntimeException('Echec de la requete IA.');
         }
 
-        $advice = data_get($response->json(), 'choices.0.message.content');
+        $advice = data_get($response->json(), 'candidates.0.content.parts.0.text');
 
         if (! is_string($advice) || trim($advice) === '') {
             throw new RuntimeException('Reponse IA invalide.');
